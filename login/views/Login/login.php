@@ -46,7 +46,9 @@ include_once '../estructura/nav.php';
         </div>
     </div>
 
-    <?php include_once '../estructura/footer.php'; ?>
+    <?php 
+    include_once '../estructura/footer.php'; 
+    ?>
     <script src="../utils/agregarCarrito.js"></script>
     <script src="../utils/carrito.js"></script>
     <script src="../utils/login-ajax.js"></script> <!-- Archivo JS para manejar el clic -->

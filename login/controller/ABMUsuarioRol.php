@@ -31,23 +31,5 @@ class ABMUsuarioRol
         }
         return null;
     }
-
-    // Método para listar todas las relaciones usuario-rol
-    public function listar()
-    {
-        $lista = [];
-        $sql = "SELECT * FROM usuariorol";
-        $base = new BaseDatos();
-        if ($base->Iniciar()) {
-            $resultado = $base->Ejecutar($sql);
-            if ($resultado) {
-                while ($fila = $resultado->fetch_assoc()) {
-                    $objUsuarioRol = new UsuarioRol();
-                    $objUsuarioRol->setear($fila['idUsuario'], $fila['idRol']);
-                    $lista[] = $objUsuarioRol;
-                }
-            }
-        }
-        return $lista;
-    }
+    
 }

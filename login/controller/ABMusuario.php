@@ -191,11 +191,9 @@ class ABMUsuario
         $where = "";
         if ($param != null) {
 
-            if (isset($param['password']) && isset($param['email'])) {
-                $where .= "password ='" . $param['password'] . "'";
-                $where .= " and email ='" . $param['email'] . "'";
+            if (isset($param['email'])) {
+                $where .= "email ='" . $param['email'] . "'";
             }
-          
         }
         $obj = new Usuario();
         $arreglo = $obj->listar($where);
@@ -204,13 +202,12 @@ class ABMUsuario
     }
 
 
-
     public function usuarioExiste($data)
     {
         $respuesta = false;
         $list = $this->buscar($data);
         foreach ($list as $usActual) {
-            if (($usActual->getusmail() == $data['email']) && ($usActual->getuspass() == $data['password'])) {
+            if (($usActual->getusmail() == $data['email'])) {
                 $respuesta = true;
             }
         }
