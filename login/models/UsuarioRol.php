@@ -43,6 +43,26 @@ class UsuarioRol extends BaseDatos {
         $this->mensajeOperacion = $valor;
     }
 
+
+    //MODIFICAR VARIABLES
+    public function modificar()
+    {
+        $resp = false;
+        $sql = "UPDATE usuarioRol SET idrol='" . $this->getIdRol() ." WHERE idusuario=" . $this->getidusuario();
+        if ($this->Iniciar()) {
+            echo $sql;
+            if ($this->Ejecutar($sql)) {
+                $resp = true;
+            } else {
+                $this->setmensajeoperacion("usuarioRol->modificar: " . $this->getError());
+            }
+        } else {
+            $this->setmensajeoperacion("usuarioRol->modificar: " . $this->getError());
+        }
+        return $resp;
+    }
+
+
     // Método para insertar una relación usuario-rol
     public function insertar() {
         $resp = false;
@@ -73,7 +93,7 @@ class UsuarioRol extends BaseDatos {
 
     // Método para obtener el rol de un usuario
     public function seleccionar() {
-        $sql = "SELECT * FROM usuariorol WHERE idUsuario = ".$this->getIdUsuario();
+        $sql = "SELECT * FROM usuariorol WHERE idusuario = ".$this->getIdUsuario();
         if ($this->Iniciar()) {
             $resultado = $this->Ejecutar($sql);
             if ($resultado) {
@@ -107,8 +127,6 @@ class UsuarioRol extends BaseDatos {
         }
         return $lista;
     }
-
-
 
 }
 

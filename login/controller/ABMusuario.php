@@ -162,7 +162,7 @@ class ABMUsuario
         return $resp;
     }
 
-    public function darRoles($param)
+    /*public function darRoles($param)
     {
         $where = " true ";
         if ($param != null) {
@@ -176,10 +176,10 @@ class ABMUsuario
 
         }
         $obj = new UsuarioRol();
-        //$arreglo = $obj->listar($where);
-        //echo "Van ".count($arreglo);
-        //return $arreglo;
-    }
+        $arreglo = $obj->listar($where);
+        echo "Van ".count($arreglo);
+        return $arreglo;
+    }*/
 
     /**
      * permite buscar un objeto
@@ -213,25 +213,44 @@ class ABMUsuario
         }
         return $respuesta;
     }
+    
 
     
     public function insertUser($data)
     {
         $respuesta = false;
 
+
         $existe= $this->usuarioExiste($data);
         if ($existe == false){
 
              // Crear un objeto Usuario
         $objUsuario = new Usuario();
+        $objUsuarioRol = new UsuarioRol();
+
+
 
         // Configurar el objeto Usuario con los datos proporcionados
         $objUsuario->setusnombre($data['nombreUsuario']);
         $objUsuario->setusmail($data['email']);
         $objUsuario->setuspass($data['password']);
+        
+
         // Llamar al método insertar() del objeto Usuario
-        $respuesta = $objUsuario->insertar();
-           
+        $respuestaUsuario = $objUsuario->insertar();
+
+
+        // Configurar el objeto Usuario rol con los datos proporcionados
+        $objUsuarioRol->setIdRol(3);
+        $objUsuarioRol->setIdUsuario($objUsuario->getidusuario());
+
+
+        $respuestaUsuarioRol = $objUsuarioRol->insertar();
+
+        if ($respuestaUsuario && $respuestaUsuarioRol){
+            $respuesta = true;
+        }
+
         }
         
         return $respuesta;

@@ -8,6 +8,7 @@ $datos = datasubmitted();
 
 $objAbmUsuario = new ABMUsuario();
 
+
 $resultado = $objAbmUsuario->insertUser($datos);
 
 // Aquí estás enviando una respuesta en formato JSON

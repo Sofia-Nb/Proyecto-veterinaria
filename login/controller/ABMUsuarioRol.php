@@ -1,6 +1,6 @@
 <?php
 
-include_once '../../models/UsuarioRol.php'; 
+include_once '../../configuracion.php'; 
 
 class ABMUsuarioRol
 {
@@ -31,5 +31,5 @@ class ABMUsuarioRol
         }
         return null;
     }
-    
+
 }

@@ -9,28 +9,12 @@ $objSesion = new Session();
 // Obtiene los datos del login (email y password hash)
 $datos = datasubmitted();
 
-$password = $datos['password'];
-
-if (!isset($datos['email']) || !isset($datos['password'])) {
-    echo json_encode(['success' => false, 'message' => 'Faltan datos.']);
-    exit();
-}
-
-$email = isset($datos['email']) ? $datos['email'] : '';
 $hashedPassword = isset($datos['password']) ? $datos['password'] : '';
-
-// Verifica que los datos del formulario no estén vacíos
-if (empty($email) || empty($hashedPassword)) {
-    echo 'Por favor, ingresa tu email y contraseña.';
-    exit();
-}
 
 // Crear una instancia de ABMUsuario
 $usuario = new ABMUsuario();
 
-// Buscar el usuario por email
-$param = ['email' => $email, 'password' => $hashedPassword];
-$usuarioData = $usuario->buscar($param);
+$usuarioData = $usuario->buscar($datos);
 
 // Verifica si se encontró el usuario
 if ($usuarioData && count($usuarioData) > 0) {
@@ -39,7 +23,6 @@ if ($usuarioData && count($usuarioData) > 0) {
     // Comparar los hashes de la contraseña
     if ($hashedPassword === $usuarioData->getuspass()) {
         // Si el hash coincide, iniciar sesión y almacenar los datos del usuario
-        $rolUs = $usuario->darRoles(['idusuario' => $usuarioData->getidusuario()]);
         $objSesion->setUsuario($usuarioData->getusnombre());
         $objSesion->setIdUsuario($usuarioData->getidusuario());
 

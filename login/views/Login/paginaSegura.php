@@ -27,7 +27,7 @@ if (!$objSession->validar()) {
 <body>
     <div class="container mt-5">
         <h1>Bienvenido/a!</h1>
-        <p>Hola, <?php echo isset($_SESSION['nombreUsuario']) ? htmlspecialchars($_SESSION['nombreUsuario']) : 'Usuario'; ?>. Has iniciado sesión exitosamente.</p>
+        <p>Hola, <?php echo isset($_SESSION['nombreUsuario']) ? htmlspecialchars($objSession->getUsuario()) : 'Usuario'; ?>. Has iniciado sesión exitosamente.</p>
 
         
         <!-- Botón para cerrar sesión -->
