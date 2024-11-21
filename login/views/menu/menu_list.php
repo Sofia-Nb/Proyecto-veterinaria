@@ -1,63 +1,46 @@
+
 <?php 
-include_once '../estructura/nav-seguro.php';
-include_once '../../../configuracion.php';
-include_once '../../controller/session.php';
-
-// Crear la instancia de la clase Session
-$objSession = new Session();
-
-// Verificar si el usuario está autenticado
-if (!$objSession->validar()) {
-    header('Location: login.php');
-    exit;
+include_once "../../configuracion.php";
+$objControl = new AbmMenu();
+$List_Menu = $objControl->buscar(null);
+$combo = '<select class="easyui-combobox"  id="idpadre"  name="idpadre" label="Submenu de?:" labelPosition="top" style="width:90%;">
+<option></option>';
+foreach ($List_Menu as $objMenu){
+    $combo .='<option value="'.$objMenu->getIdmenu().'">'.$objMenu->getMenombre().':'.$objMenu->getMedescripcion().'</option>';
 }
 
-// Obtener el rol del usuario desde la sesión
-$rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
+$combo .='</select>';
 ?>
 
+
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Cliente</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../estructura/style.css">
+<meta charset="UTF-8">
+<title>Basic CRUD Application - jQuery EasyUI CRUD Demo</title>
+<link rel="stylesheet" type="text/css" href="../js/jquery-easyui-1.6.6/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../js/jquery-easyui-1.6.6/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../js/jquery-easyui-1.6.6/themes/color.css">
+<link rel="stylesheet" type="text/css" href="../js/jquery-easyui-1.6.6/demo/demo.css">
+<script type="text/javascript" src="../js/jquery-easyui-1.6.6/jquery.min.js"></script>
+<script type="text/javascript" src="../js/jquery-easyui-1.6.6/jquery.easyui.min.js"></script>
 </head>
 <body>
+<h2>ABM - MEnu</h2>
+<p>Seleccione la acci&oacute;n que desea realizar.</p>
 
-<div class="container mt-5">
-    <h1>Bienvenido a tu Dashboard, <?php echo htmlspecialchars($objSession->getUsuario()); ?>!</h1>
-<br>
-    <!-- Ejemplo de contenido del dashboard -->
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    Información de tu cuenta
-                </div>
-                <div class="card-body">
-                    <p><strong>Nombre:</strong> <?php echo htmlspecialchars($objSession->getUsuario()); ?></p>
-                    <p><strong>Email:</strong> <?php echo htmlspecialchars($objSession->getEmail()); ?></p>
-                    <!-- Botón para cerrar sesión -->
-                <form action="../Login/logout.php" method="POST">
-                    <button type="submit" class="btn btn-danger mt-3">Cerrar Sesión</button>
-                </form>
-
-    <br>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mostrar opciones solo para administradores -->
-        <?php if ($rolUsuario == 1): ?>
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    Gestión Administrativa
-                </div>
-                <div class="card-body">
+<table id="dg" title="Administrador de item menu" class="easyui-datagrid" style="width:700px;height:250px"
+    url="accion/listar_menu.php" toolbar="#toolbar" pagination="true"rownumbers="true" fitColumns="true" singleSelect="true">
+            <thead>
+            <tr>
+            <th field="idmenu" width="50">ID</th>
+            <th field="menombre" width="50">Nombre</th>
+            <th field="medescripcion" width="50">Descripci&oacute;n</th>
+            <th field="idpadre" width="50">Submenu De:</th>
+             <th field="medeshabilitado" width="50">Deshabilitado</th>
+            </tr>
+            </thead>
+            </table>
             <div id="toolbar">
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newMenu()">Nuevo Menu </a>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editMenu()">Editar Menu</a>
@@ -76,6 +59,9 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
             <input  name="medescripcion" id="medescripcion"  class="easyui-textbox" required="true" label="Descripcion:" style="width:100%">
             </div>
             <div style="margin-bottom:10px">
+            <?php 
+                echo $combo;
+            ?>
              
             </div>
               <div style="margin-bottom:10px">
@@ -149,18 +135,5 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
                 }
             }
             </script>
-                </div>
-            </div>
-        </div>
-        <?php endif; ?>
-
-    </div>
-    <br>
-
-</div>
-<?php 
-    include_once '../estructura/footer.php'; 
-    ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+            </body>
+            </html>

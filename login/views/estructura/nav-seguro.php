@@ -52,7 +52,7 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
             </div>
 
             <!-- Barra de búsqueda -->
-            <div class="search-bar">
+            <div class="search-bar" style="padding-left: 150px;">
                 <input type="text" placeholder="Buscar productos...">
                 <button type="submit">Buscar</button>
             </div>
@@ -97,6 +97,17 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
         <div class="navbar">
             <div class="nav-links">
                 <ul>
+                    
+                    <?php if ($rolUsuario == 1): ?>
+                        <li><a href="eliminar_usuarios.php" class="btn btn-danger">Eliminar Usuarios</a></li>
+                        <li><a href="asignar_roles.php" class="btn btn-primary">Asignar Roles</a></li>
+                        <li><a href="gestion_productos.php" class="btn btn-info">Gestionar Productos</a></li>
+
+                        <?php elseif ($rolUsuario == 2): ?>
+                        <li><a href="asignar_roles.php" class="btn btn-primary">Gestionar Productos</a></li>
+                        <li><a href="gestion_productos.php" class="btn btn-info">Gestionar Compras</a></li>
+
+                        <?php elseif ($rolUsuario == 3): ?>
                     <li><a href="../tienda/tienda.php">Tienda</a></li>
                     <li><a href="#">Ofertas</a></li>
                     <li class="dropdown">
@@ -108,11 +119,7 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
                     </li>
                     <li><a href="#">Contacto</a></li>
                     <li><a href="#">Turnos</a></li>
-                    <?php if ($rolUsuario == 1): ?>
-                        <li><a href="eliminar_usuarios.php" class="btn btn-danger">Eliminar Usuarios</a></li>
-                        <li><a href="asignar_roles.php" class="btn btn-primary">Asignar Roles</a></li>
-                        <li><a href="gestion_productos.php" class="btn btn-warning">Gestionar Productos</a></li>
-                        <?php endif; ?>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

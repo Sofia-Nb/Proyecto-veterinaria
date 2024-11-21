@@ -1,6 +1,6 @@
 <?php
 
-class abmMenu
+class AbmMenu
 {
 
     public function abm($datos)
