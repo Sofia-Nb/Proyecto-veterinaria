@@ -42,7 +42,7 @@ $('#loginForm').submit(function (e) {
                 // Si el login es exitoso
                 if (res.success) {
                     alert("Inicio de sesión exitoso.");
-                    window.location.href = "../Login/paginaSegura.php";
+                    window.location.href = "../Login/login-seguro.php";
                 } else {
                     // Mensaje de error proporcionado por el backend
                     alert(res.message || "No se pudo iniciar sesión.");

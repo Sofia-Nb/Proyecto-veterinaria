@@ -42,13 +42,11 @@ class Session {
         return isset($_SESSION['id']) && !empty($_SESSION['id']) && isset($_SESSION['nombreUsuario']) && !empty($_SESSION['nombreUsuario']);
     }
     
-    /**
-     * Verifica si la sesión está activa
-     * @return bool
-     */
     public function activa() {
-        return session_status() == PHP_SESSION_ACTIVE;
+        // Verifica que la sesión esté activa y que exista un usuario logueado
+        return session_status() == PHP_SESSION_ACTIVE && isset($_SESSION['id']);
     }
+    
 
        /**
      * Devuelve el usuario logeado
@@ -60,6 +58,15 @@ class Session {
         }
         return null; // Si no está definido, devuelve null
     }
+
+
+    public function getEmail() {
+        if (isset($_SESSION['email'])) {
+            return $_SESSION['email'];
+        }
+        return null; // Si no está definido, devuelve null
+    }
+
     
     /**
      * Devuelve el rol del usuario logeado
@@ -88,8 +95,21 @@ class Session {
         $_SESSION['nombreUsuario'] = $nombreUsuario;
     }
 
+    public function setEmail($email) {
+        $_SESSION['email'] = $email;
+    }
+
     /**
      * Establece el id del usuario logeado en la sesión
+     * @param $idusuario
+     */
+    public function getIdUsuario() {
+        if (isset($_SESSION['id'])) {
+            return $_SESSION['id'];
+        }
+        return null;
+    }
+     /* Establece el id del usuario logeado en la sesión
      * @param $idusuario
      */
     public function setIdUsuario($idusuario) {
@@ -106,6 +126,25 @@ class Session {
         if (session_status() == PHP_SESSION_ACTIVE) {
             session_destroy();
         }
+    }
+
+
+    public function getRoles()
+    {
+        //Devuelve un arreglo con los objetos rol del user
+        $roles = [];
+        $user = $this->getUsuario();
+        if ($user != null) {
+            //Primero busco la instancia de UsuarioRol
+            $objAbmUsuarioRol = new AbmUsuarioRol();
+            //Creo el parametro con el id del usuario
+            $parametroUser = array('idusuario' => $user->getID());
+            $listaUsuarioRol = $objAbmUsuarioRol->buscar($parametroUser);
+            foreach ($listaUsuarioRol as $tupla) {
+                array_push($roles, $tupla->getObjRol());
+            }
+        }
+        return $roles;
     }
 
 }

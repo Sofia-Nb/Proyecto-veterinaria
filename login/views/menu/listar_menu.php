@@ -1,7 +1,7 @@
 <?php 
 include_once "../../../configuracion.php";
-$data = data_submitted();
-$objControl = new AbmMenu();
+$data = datasubmitted();
+$objControl = new ABMmenu();
 $list = $objControl->buscar($data);
 $arreglo_salida =  array();
 foreach ($list as $elem ){

@@ -1,7 +1,4 @@
 <?php
-
-include_once '../../configuracion.php'; 
-
 class ABMUsuarioRol
 {
 
@@ -31,5 +28,24 @@ class ABMUsuarioRol
         }
         return null;
     }
+
+    public function buscar($param)
+{
+    $where = "";
+    
+    // Verificar si se proporcionan parámetros para la búsqueda
+    if ($param != null) {
+        if (isset($param['idusuario'])) {
+            $where .= "idusuario = '" . $param['idusuario'] . "'";
+        }
+    }
+
+    // Crear un objeto UsuarioRol y usar el método listar con el where generado
+    $objUsuarioRol = new UsuarioRol();
+    $arreglo = $objUsuarioRol->listar($where);
+
+    return $arreglo;
+}
+
 
 }

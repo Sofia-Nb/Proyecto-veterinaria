@@ -103,7 +103,7 @@ class Usuario extends BaseDatos
     {
         $resp = false;
         $sql = "INSERT INTO usuarios(nombreUsuario,password,email,usDeshabilitado)
-            VALUES('" . $this->getusnombre() . "','" . $this->getuspass() . "','" . $this->getusmail() . "'," . ($this->getusdeshabilitado() === null ? NULL : "'" . $this->getusdeshabilitado() . "'") . ");";
+            VALUES('" . $this->getusnombre() . "','" . $this->getuspass() . "','" . $this->getusmail() . "'," . ($this->getusdeshabilitado() === null ? 'NULL' : "'" . $this->getusdeshabilitado() . "'") . ");";
           
 
 
@@ -137,10 +137,10 @@ class Usuario extends BaseDatos
             if ($this->Ejecutar($sql)) {
                 $resp = true;
             } else {
-                $this->setmensajeoperacion("usuarios->modificar: " . $this->getError());
+                $this->setmensajeoperacion("Especie->modificar: " . $this->getError());
             }
         } else {
-            $this->setmensajeoperacion("usuarios->modificar: " . $this->getError());
+            $this->setmensajeoperacion("Especie->modificar: " . $this->getError());
         }
         return $resp;
     }

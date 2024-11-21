@@ -43,26 +43,6 @@ class UsuarioRol extends BaseDatos {
         $this->mensajeOperacion = $valor;
     }
 
-
-    //MODIFICAR VARIABLES
-    public function modificar()
-    {
-        $resp = false;
-        $sql = "UPDATE usuarioRol SET idrol='" . $this->getIdRol() ." WHERE idusuario=" . $this->getidusuario();
-        if ($this->Iniciar()) {
-            echo $sql;
-            if ($this->Ejecutar($sql)) {
-                $resp = true;
-            } else {
-                $this->setmensajeoperacion("usuarioRol->modificar: " . $this->getError());
-            }
-        } else {
-            $this->setmensajeoperacion("usuarioRol->modificar: " . $this->getError());
-        }
-        return $resp;
-    }
-
-
     // Método para insertar una relación usuario-rol
     public function insertar() {
         $resp = false;
@@ -99,7 +79,7 @@ class UsuarioRol extends BaseDatos {
             if ($resultado) {
                 $fila = $resultado->fetch_assoc();
                 if ($fila) {
-                    $this->setear($fila['idUsuario'], $fila['idRol']);
+                    $this->setear($fila['idusuario'], $fila['idrol']);
                     return true;
                 }
             } else {
@@ -109,25 +89,40 @@ class UsuarioRol extends BaseDatos {
         return false;
     }
 
-    // Método para listar todas las relaciones usuario-rol
-    public function listar()
-    {
-        $lista = [];
-        $sql = "SELECT * FROM usuariorol";
-        $base = new BaseDatos();
-        if ($base->Iniciar()) {
-            $resultado = $base->Ejecutar($sql);
-            if ($resultado) {
-                while ($fila = $resultado->fetch_assoc()) {
-                    $objUsuarioRol = new UsuarioRol();
-                    $objUsuarioRol->setear($fila['idUsuario'], $fila['idRol']);
-                    $lista[] = $objUsuarioRol;
-                }
-            }
-        }
-        return $lista;
+    public function listar($parametro = "")
+{
+    $arreglo = array();
+    $sql = "SELECT * FROM usuariorol "; // Tabla de relaciones usuario-rol
+
+    // Si se pasa un parámetro, añadir la cláusula WHERE
+    if ($parametro != "") {
+        $sql .= ' WHERE ' . $parametro;
     }
 
+    // Iniciar la conexión a la base de datos
+    if ($this->Iniciar()) {
+        $res = $this->Ejecutar($sql); // Ejecutar la consulta
+        
+        // Verificar si la ejecución fue exitosa
+        if ($res > -1) {  // Si la ejecución fue exitosa
+            if ($res > 0) {
+                // Iterar a través de los resultados de la consulta
+                while ($row = $this->Registro()) {
+                    $obj = new UsuarioRol(); // Crear un nuevo objeto UsuarioRol
+                    $obj->setear($row['idusuario'], $row['idrol']); // Setear los valores de usuario y rol
+                    array_push($arreglo, $obj); // Añadir el objeto al arreglo
+                }
+            }
+        } else {
+            // Si la consulta falló, establecer un mensaje de error
+            $this->setMensajeOperacion("usuariorol->listar: " . $this->getError());
+        }
+    }
+    
+    return $arreglo; // Retornar el arreglo de objetos UsuarioRol
 }
 
 
+    
+
+}

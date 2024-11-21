@@ -1,4 +1,4 @@
-<!-- header.php -->
+<!-- nav.php -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,7 +27,7 @@
     <header>
         <!-- Logo y Nombre -->
         <div class="logo">
-            <a href="http://localhost:3000/proyecto-veterinaria/login/views/home/index.php"><img src="../../assests/img/Logo.png" alt="Logo"></a> <!-- Asegúrate de poner la ruta correcta a tu imagen -->
+            <a href="http://localhost:3000/login/views/home/index.php"><img src="../../assests/img/Logo.png" alt="Logo"></a> <!-- Asegúrate de poner la ruta correcta a tu imagen -->
         </div>
 
         <!-- Barra de búsqueda -->
@@ -38,7 +38,7 @@
 
         <!-- Carrito, Login y GitHub -->
         <div class="account-cart">
-            <a href="http://localhost:3000/proyecto-veterinaria/login/views/Login/login.php" class="login">Login</a>
+            <a href="http://localhost:3000/login/views/Login/login.php" class="login">Login</a>
 
 
             <a class="cart" href="http://localhost:3000/login/views/carritoMuestra.php">
@@ -59,7 +59,7 @@
     <!-- Menú de navegación -->
     <div class="nav-links">
         <ul>
-            <li><a href="../tienda.php">Tienda</a></li>
+            <li><a href="../tienda/tienda.php">Tienda</a></li>
             <li><a href="#">Ofertas</a></li>
             <li class="dropdown">
                 <a href="#">Categorías</a>

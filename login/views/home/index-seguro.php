@@ -1,7 +1,7 @@
 <?php
+include_once '../estructura/nav-seguro.php'; // Usuario logueado
 include_once '../../../configuracion.php'; // Configuración general
 include_once '../../controller/session.php'; // Controlador de sesión
-include_once '../estructura/nav.php'; // Usuario no logueado
 
 ?>
 

@@ -1,9 +1,9 @@
 <?php 
 include_once "../../../configuracion.php";
-$data = data_submitted();
+$data = datasubmitted();
 $respuesta = false;
 if (isset($data['menombre'])){
-        $objC = new AbmMenu();
+        $objC = new ABMmenu();
         $respuesta = $objC->alta($data);
         if (!$respuesta){
             $mensaje = " La accion  ALTA No pudo concretarse";

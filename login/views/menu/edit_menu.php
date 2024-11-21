@@ -1,6 +1,6 @@
 <?php
 include_once "../../../configuracion.php";
-$data = data_submitted();
+$data = datasubmitted();
 $respuesta = false;
 if (isset($data['idmenu'])){
     $objC = new AbmMenu();
