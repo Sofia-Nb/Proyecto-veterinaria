@@ -8,4 +8,4 @@ $PROYECTO = '../proyecto-veterinaria/';
 $ROOT = __DIR__ . "/$PROYECTO";    
 
 // Esto asegura que las rutas para imágenes, assets y demás recursos estén bien construidas
-$GLOBALS['IMGS'] = $ROOT . "/login/assests/img/";
+$GLOBALS['IMGS'] = $ROOT . "/views/assests/img/";

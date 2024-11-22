@@ -8,7 +8,7 @@ include_once '../estructura/nav.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login con reCAPTCHA</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../estructura/style.css">
+    <link rel="stylesheet" href="../assests/css/style.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -49,8 +49,8 @@ include_once '../estructura/nav.php';
     <?php 
     include_once '../estructura/footer.php'; 
     ?>
-    <script src="../utils/agregarCarrito.js"></script>
-    <script src="../utils/carrito.js"></script>
-    <script src="../utils/login-ajax.js"></script> <!-- Archivo JS para manejar el clic -->
+    <script src="../assests/js/agregarCarrito.js"></script>
+    <script src="../assests/js/carrito.js"></script>
+    <script src="../assests/js/login-ajax.js"></script> <!-- Archivo JS para manejar el clic -->
 </body>
 </html>

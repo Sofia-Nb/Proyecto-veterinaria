@@ -29,7 +29,7 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assests/css/style.css">
 </head>
 <body>
     <nav>
@@ -81,10 +81,16 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
                     </ul>
                 <?php endif; ?>
 
+
+
+                <?php if ($rolUsuario == 3): ?>
                 <!-- Carrito -->
                 <a class="cart ms-3 text-decoration-none" href="http://localhost:3000/login/views/carritoMuestra.php">
                     <span class="cart-icon">🛒</span> Carrito (<span id="contadorCarrito">0</span>)
                 </a>
+                <?php endif; ?>
+
+
 
                 <!-- GitHub -->
                 <a class="nav-link ms-3" href="https://github.com/Sofia-Nb/Proyecto-veterinaria" target="_blank">
@@ -100,16 +106,17 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
                     
                     <?php if ($rolUsuario == 1): ?>
                         <li><a href="eliminar_usuarios.php" class="btn btn-danger">Eliminar Usuarios</a></li>
-                        <li><a href="asignar_roles.php" class="btn btn-primary">Asignar Roles</a></li>
+                        <li><a href="asignar_roles.php" class="btn btn-success">Asignar Roles</a></li>
                         <li><a href="gestion_productos.php" class="btn btn-info">Gestionar Productos</a></li>
+                        <li><a href="gestion_productos.php" class="btn btn-primary">Gestionar Compras</a></li>
 
                         <?php elseif ($rolUsuario == 2): ?>
-                        <li><a href="asignar_roles.php" class="btn btn-primary">Gestionar Productos</a></li>
-                        <li><a href="gestion_productos.php" class="btn btn-info">Gestionar Compras</a></li>
+                        <li><a href="asignar_roles.php" class="btn btn-info">Gestionar Productos</a></li>
+                        <li><a href="gestion_productos.php" class="btn btn-primary">Gestionar Compras</a></li>
 
                         <?php elseif ($rolUsuario == 3): ?>
                     <li><a href="../tienda/tienda.php">Tienda</a></li>
-                    <li><a href="#">Ofertas</a></li>
+
                     <li class="dropdown">
                         <a href="#">Categorías</a>
                         <ul class="dropdown-menu">
@@ -118,7 +125,6 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
                         </ul>
                     </li>
                     <li><a href="#">Contacto</a></li>
-                    <li><a href="#">Turnos</a></li>
                     <?php endif; ?>
                 </ul>
             </div>

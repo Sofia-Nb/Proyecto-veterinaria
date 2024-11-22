@@ -16,8 +16,8 @@ include_once '../estructura/nav.php';
     <title>Proyecto Veterinaria</title>
     <!-- Enlace a Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../estructura/style.css">
-    <link rel="stylesheet" href="styleHome.css">
+    <link rel="stylesheet" href="../assests/css/style.css">
+
 
 </head>
 <body><br><br>
@@ -31,28 +31,28 @@ include_once '../estructura/nav.php';
                     <table class="table text-center">
                         <tbody>
                             <tr>
-                                <td><a href="#"><img src="../../../img1.jpg" class="img-fluid" alt="Auriculares" style="width: 200px;"></a></td>
+                                <td><a href="#"><img src="../../assests/img/img5.webp" class="img-fluid" alt="collares" style="width: 200px;"></a></td>
 
 
-                                <td><a href="../view        s/collares.php">collares</a></td>
+                                <td><a href="collares.php">collares</a></td>
 
 
-                                <td><a href="http://localhost:3000/login/views/collares.php"><img src="../views/" class="img-fluid" alt="Teclados" style="width: 200px;"></a></td>
+                                <td><a href="http://localhost:3000/login/views/collares.php"><img src="../views/" class="img-fluid" alt="bozal" style="width: 200px;"></a></td>
 
 
-                                <td><a href="accesorio.php?producto=teclados">bozal</a></td>
+                                <td><a href="accesorio.php?producto=bozal">bozal</a></td>
                             </tr>
                             <tr>
-                                <td><a href="accesorio.php?producto=ratones"><img src="../../../img1.jpg" class="img-fluid" alt="Ratones" style="width: 200px;"></a></td>
+                                <td><a href="accesorio.php?producto=corrreas"><img src="../../../img1.jpg" class="img-fluid" alt="correas" style="width: 200px;"></a></td>
 
 
-                                <td><a href="accesorio.php?producto=ratones">corrreas</a></td>
+                                <td><a href="accesorio.php?producto=correas">correas</a></td>
 
 
-                                <td><a href="accesorio.php?producto=sillas"><img src="../../../img1.jpg" class="img-fluid" alt="Sillas" style="width: 200px;"></a></td>
+                                <td><a href="accesorio.php?producto=cono"><img src="../../../img1.jpg" class="img-fluid" alt="cono" style="width: 200px;"></a></td>
 
 
-                                <td><a href="accesorio.php?producto=sillas">cono</a></td>
+                                <td><a href="accesorio.php?producto=cono">cono</a></td>
 
 
                             </tr>
@@ -149,8 +149,8 @@ include_once '../estructura/nav.php';
 include_once '../estructura/footer.php';
 ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../utils/agregarCarrito.js"></script>
-<script src="../utils/carrito.js"></script>
+<script src="../assests/js/agregarCarrito.js"></script>
+<script src="../assests/js/carrito.js"></script>
 
 </body>
 </html>

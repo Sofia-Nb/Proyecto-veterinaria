@@ -9,7 +9,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assests/css/style.css">
 </head>
 
 <body>
@@ -60,7 +60,6 @@
     <div class="nav-links">
         <ul>
             <li><a href="../tienda/tienda.php">Tienda</a></li>
-            <li><a href="#">Ofertas</a></li>
             <li class="dropdown">
                 <a href="#">Categorías</a>
                 <ul class="dropdown-menu">
@@ -69,7 +68,6 @@
                 </ul>
             </li>
             <li><a href="#">Contacto</a></li>
-            <li><a href="#">Turnos</a></li>
         </ul>
     </div>
 </div>
