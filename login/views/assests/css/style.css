@@ -254,3 +254,29 @@ body {
         justify-content: center; /* Centra los elementos en pantallas pequeñas */
     }
 }
+
+
+/* Asegura que las imágenes dentro de las celdas tengan el mismo tamaño y se ajusten bien en la sección de medicamentos */
+#categorias .product-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover; /* Hace que la imagen cubra el área sin deformarse */
+}
+
+/* Asegura que el texto dentro de las celdas esté alineado solo dentro de la sección de medicamentos */
+#categorias .table td, #medicamentos .table th {
+    vertical-align: middle; /* Centra el contenido verticalmente */
+    text-align: center; /* Centra el contenido horizontalmente */
+}
+
+/* Estilo para los enlaces para que sean visibles solo en la sección de medicamentos */
+#categorias .table td a {
+    text-decoration: none;
+    color: #000; /* Asegura que el texto sea visible */
+}
+
+/* Efecto al pasar el mouse sobre los enlaces solo en la sección de medicamentos */
+#categorias .table td a:hover {
+    color: #007bff; /* Cambia el color cuando se pasa el mouse */
+    text-decoration: underline;
+}
