@@ -5,6 +5,9 @@ class Producto extends BaseDatos {
     private $proNombre;
     private $proDetalle;
     private $proCantStock;
+    private $precio;
+    private $prodeshabilitado;
+    private $imagen;
     private $mensajeOperacion;
 
     public function __construct() {
@@ -13,15 +16,30 @@ class Producto extends BaseDatos {
         $this->proNombre = "";
         $this->proDetalle = "";
         $this->proCantStock = 0;
+        $this->precio = 0.0;
+        $this->prodeshabilitado = false;
+        $this->imagen = "";
         $this->mensajeOperacion = "";
     }
 
+    public function setearSinID($pronombre, $prodetalle, $procantstock, $precio, $prodeshabilitado, $imagen) {
+        $this->proNombre = $pronombre;
+        $this->proDetalle = $prodetalle;
+        $this->proCantStock = $procantstock;
+        $this->precio = $precio;
+        $this->prodeshabilitado = $prodeshabilitado;
+        $this->imagen = $imagen;
+    }
+
     // Métodos de establecimiento (Setters)
-    public function setear($idProducto, $proNombre, $proDetalle, $proCantStock) {
+    public function setear($idProducto, $proNombre, $proDetalle, $proCantStock, $precio, $prodeshabilitado, $imagen) {
         $this->setIdProducto($idProducto);
         $this->setProNombre($proNombre);
         $this->setProDetalle($proDetalle);
         $this->setProCantStock($proCantStock);
+        $this->setPrecio($precio);
+        $this->setProDeshabilitado($prodeshabilitado);
+        $this->setImagen($imagen);
     }
 
     // Cargar datos desde la base de datos
@@ -33,7 +51,15 @@ class Producto extends BaseDatos {
             if ($res > -1) {
                 if ($res > 0) {
                     $row = $this->Registro();
-                    $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
+                    $this->setear(
+                        $row['idproducto'],
+                        $row['pronombre'],
+                        $row['prodetalle'],
+                        $row['procantstock'],
+                        $row['precio'],
+                        $row['prodeshabilitado'],
+                        $row['imagen']
+                    );
                 }
             }
         } else {
@@ -45,8 +71,8 @@ class Producto extends BaseDatos {
     // Insertar un nuevo producto
     public function insertar() {
         $resp = false;
-        $sql = "INSERT INTO producto (pronombre, prodetalle, procantstock) 
-                VALUES ('" . $this->getProNombre() . "', '" . $this->getProDetalle() . "', " . $this->getProCantStock() . ")";
+        $sql = "INSERT INTO producto (pronombre, prodetalle, procantstock, precio, prodeshabilitado, imagen) 
+                VALUES ('" . $this->getProNombre() . "', '" . $this->getProDetalle() . "', " . $this->getProCantStock() . ", " . $this->getPrecio() . ", " . ($this->getProDeshabilitado() ? 1 : 0) . ", '" . $this->getImagen() . "')";
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
                 $resp = true;
@@ -63,7 +89,9 @@ class Producto extends BaseDatos {
     public function modificar() {
         $resp = false;
         $sql = "UPDATE producto SET pronombre = '" . $this->getProNombre() . "', 
-                prodetalle = '" . $this->getProDetalle() . "', procantstock = " . $this->getProCantStock() . "
+                prodetalle = '" . $this->getProDetalle() . "', procantstock = " . $this->getProCantStock() . ",
+                precio = " . $this->getPrecio() . ", prodeshabilitado = " . ($this->getProDeshabilitado() ? 1 : 0) . ", 
+                imagen = '" . $this->getImagen() . "'
                 WHERE idproducto = '" . $this->getIdProducto() . "'";
 
         if ($this->Iniciar()) {
@@ -106,7 +134,15 @@ class Producto extends BaseDatos {
             if ($res > 0) {
                 while ($row = $this->Registro()) {
                     $obj = new Producto();
-                    $obj->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
+                    $obj->setear(
+                        $row['idproducto'],
+                        $row['pronombre'],
+                        $row['prodetalle'],
+                        $row['procantstock'],
+                        $row['precio'],
+                        $row['prodeshabilitado'],
+                        $row['imagen']
+                    );
                     array_push($arreglo, $obj);
                 }
             }
@@ -114,6 +150,11 @@ class Producto extends BaseDatos {
             $this->setMensajeOperacion("producto->listar: " . $this->getError());
         }
         return $arreglo;
+    }
+
+
+    public function mostrarProductosCarrito($where){
+
     }
 
     // Métodos getter y setter
@@ -149,6 +190,30 @@ class Producto extends BaseDatos {
         $this->proCantStock = $proCantStock;
     }
 
+    public function getPrecio() {
+        return $this->precio;
+    }
+
+    public function setPrecio($precio) {
+        $this->precio = $precio;
+    }
+
+    public function getProDeshabilitado() {
+        return $this->prodeshabilitado;
+    }
+
+    public function setProDeshabilitado($prodeshabilitado) {
+        $this->prodeshabilitado = $prodeshabilitado;
+    }
+
+    public function getImagen() {
+        return $this->imagen;
+    }
+
+    public function setImagen($imagen) {
+        $this->imagen = $imagen;
+    }
+
     public function getMensajeOperacion() {
         return $this->mensajeOperacion;
     }
@@ -157,4 +222,5 @@ class Producto extends BaseDatos {
         $this->mensajeOperacion = $mensajeOperacion;
     }
 }
+
 ?>

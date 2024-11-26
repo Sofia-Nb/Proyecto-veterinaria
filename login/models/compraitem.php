@@ -1,5 +1,3 @@
-
-
 <?php
 
 class Compraitem extends BaseDatos {

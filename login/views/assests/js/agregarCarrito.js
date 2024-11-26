@@ -1,49 +1,37 @@
-
-
-
 $(document).ready(function () {
-    // Función para agregar al carrito
-    $(".agregarCarrito").on("click", function (event) {
-        event.preventDefault();
+    // Agregar un producto al carrito
+    $('.agregarCarrito').on('click', function () {
+        const productoId = $(this).data('producto');
+        let cantidad = 1; // Definimos que por defecto la cantidad es 1
 
-        // Obtener los datos del producto desde los atributos
-        const $producto = $(this);
-        const nombre = $producto.data("nombre");
-        const precio = parseFloat($producto.data("precio"));
-        const id = $producto.data("producto");
+        // Verificamos si ya hay este producto en el carrito y sumamos la cantidad
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-        // Obtener el carrito actual desde localStorage
-        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        const productoExistente = carrito.find(item => item.idproducto === productoId);
+        if (productoExistente) {
+            cantidad = productoExistente.cantidad + 1; // Si ya existe, se incrementa la cantidad
+        }
 
-        // Crear un objeto para el producto
-        const item = {
-            id: id,
-            nombre: nombre,
-            precio: precio
-        };
-
-        // Agregar el producto al carrito
-        carrito.push(item);
-
-        // Guardar el carrito actualizado en localStorage
-        localStorage.setItem("carrito", JSON.stringify(carrito));
-
-        // Mostrar mensaje de éxito--luego cambiar...
-        alert(`Producto agregado al carrito: ${nombre}`);
-
-        // Actualizar el contador del carrito
-        actualizarContadorCarrito();
+        // Llamada AJAX para agregar el producto al carrito
+        $.ajax({
+            url: '../../views/action/agregarCarrito.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                productoId: productoId,
+                cantidad: cantidad
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert('Producto agregado al carrito');
+                    actualizarCarrito(); // Refresca la vista del carrito
+                } else {
+                    alert('Error: ' + response.mensaje);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error al agregar producto:', error);
+            }
+        });
     });
-
-    // Función para actualizar el contador del carrito
-    function actualizarContadorCarrito() {
-        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-        const contador = carrito.length;
-
-        // Actualizar el contador en el HTML
-        $("#contadorCarrito").text(contador);
-    }
-
-    // Llama a la función para actualizar el contador al cargar la página
-    actualizarContadorCarrito();
 });

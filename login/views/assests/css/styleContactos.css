@@ -1,0 +1,28 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+form {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+
+.btn-primary {
+    background-color: #e8cc45;
+    border-color: #e8cc45;
+    color: #333;
+}
+.btn-primary:hover {
+    background-color: #dc8a10;
+    border-color: #dc8a10;
+}
+
+#datosContacto{
+    background-color:rgba(247, 247, 247, 0.736); 
+    padding: 50px; 
+    border-radius: 15px;
+}

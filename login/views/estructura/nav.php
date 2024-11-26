@@ -27,7 +27,7 @@
     <header>
         <!-- Logo y Nombre -->
         <div class="logo">
-            <a href="http://localhost:3000/login/views/home/index.php"><img src="../../assests/img/Logo.png" alt="Logo"></a> <!-- Asegúrate de poner la ruta correcta a tu imagen -->
+            <a href="../home/index.php"><img src="../assests/img/Logo.png" alt="Logo"></a> <!-- Asegúrate de poner la ruta correcta a tu imagen -->
         </div>
 
         <!-- Barra de búsqueda -->
@@ -38,11 +38,9 @@
 
         <!-- Carrito, Login y GitHub -->
         <div class="account-cart">
-            <a href="http://localhost:3000/login/views/Login/login.php" class="login">Login</a>
+            <a href="../Login/login.php" class="login">Login</a>
 
 
-            <a class="cart" href="http://localhost:3000/login/views/carritoMuestra.php">
-    <span class="cart-icon">🛒</span> Carrito (<span id="contadorCarrito">0</span>)</a>
 
             <a class="nav-link" href="https://github.com/Sofia-Nb/Proyecto-veterinaria" target="_blank">
                 <i class="fab fa-github fa-2x"></i>
@@ -59,18 +57,37 @@
     <!-- Menú de navegación -->
     <div class="nav-links">
         <ul>
-            <li><a href="../tienda/tienda.php">Tienda</a></li>
+        <li>
+            <a href="javascript:void(0);" id="productosLink">Productos</a>
+        </li>
             <li class="dropdown">
-                <a href="#">Categorías</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Perros</a></li>
-                    <li><a href="#">Gatos</a></li>
-                </ul>
             </li>
-            <li><a href="#">Contacto</a></li>
+            <li><a href="../Contacto/contacto.php" id="contactosLink">Contacto</a></li>
         </ul>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Controlador para el enlace de Productos
+    document.getElementById("productosLink").addEventListener("click", function() {
+        Swal.fire({
+            icon: 'warning', // Tipo de ícono: warning, error, success, etc.
+            title: 'Acceso restringido',
+            text: 'Debe iniciar sesión para ver los productos.',
+            confirmButtonText: 'Iniciar sesión',
+            confirmButtonColor: '#e88c00',
+            showCloseButton: true, // Esta opción agrega la "X" en la esquina superior derecha
+            closeButtonHtml: '<i class="fas fa-times"></i>', // Puedes personalizar el ícono de cierre
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirige al usuario a la página de inicio de sesión
+                window.location.href = "../Login/login.php";
+            }
+        });
+    });
+</script>
+
 </nav>
 
 

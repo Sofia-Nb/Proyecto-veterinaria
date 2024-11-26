@@ -1,19 +1,5 @@
 <?php 
 include_once '../estructura/nav-seguro.php';
-include_once '../../../configuracion.php';
-include_once '../../controller/session.php';
-
-// Crear la instancia de la clase Session
-$objSession = new Session();
-
-// Verificar si el usuario está autenticado
-if (!$objSession->validar()) {
-    header('Location: login.php');
-    exit;
-}
-
-// Obtener el rol del usuario desde la sesión
-$rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
 ?>
 
 <!DOCTYPE html>

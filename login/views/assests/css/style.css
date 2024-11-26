@@ -280,3 +280,23 @@ body {
     color: #007bff; /* Cambia el color cuando se pasa el mouse */
     text-decoration: underline;
 }
+
+
+#productos{
+    width: 300px;
+    height: 300px;
+}
+
+.card {
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Esto centra el contenido dentro de la tarjeta */
+    justify-content: space-between;
+}
+
+.card-img-top {
+    width: auto; /* Asegura que la imagen no se estire */
+    height: 200px; /* Puedes ajustar la altura según lo que necesites */
+    object-fit: contain; /* Esto asegura que la imagen se ajuste sin distorsionarse */
+}

@@ -90,11 +90,12 @@ class abmProducto
     public function altaSinID($param)
     {
         $resp = false;
-        $cImagenes = new controlImagenes();
-        $arreglo = $cImagenes->cargarImagen('producto', $param['files']['imagen'], 'productos/');
 
-        if ($arreglo['respuesta']) {
-            $param['imagen'] = $arreglo['nombre'];
+        // Procesamos la imagen
+        $imagenNombre = $this->cargarImagen('producto', $param['files']['imagen'], 'productos/');
+
+        if ($imagenNombre) {
+            $param['imagen'] = $imagenNombre;
             $param['prodeshabilitado'] = null;
             $objProducto = $this->cargarObjetoSinID($param);
             if ($objProducto != null and $objProducto->insertar()) {
@@ -110,8 +111,8 @@ class abmProducto
         if ($this->seteadosCamposClaves($param)) {
             $objProducto = $this->cargarObjetoConClave($param);
             $objProducto->cargar();
-            $cImagen = new controlImagenes();
-            $cImagen->eliminarImagen($objProducto->getImagen(), 'productos/');
+            // Eliminamos la imagen
+            $this->eliminarImagen($objProducto->getImagen(), 'productos/');
             if ($objProducto != null and $objProducto->eliminar()) {
                 $resp = true;
             }
@@ -138,12 +139,12 @@ class abmProducto
         if ($this->seteadosCamposClaves($param)) {
             $objProducto = $this->cargarObjetoConClave($param);
             $objProducto->cargar();
-            // PRIMERO ELIMINAMOS LA IMAGEN ANTIGUA E INSERTAMOS LA NUEVA
-            $cImagen = new controlImagenes();
-            $cImagen->eliminarImagen($param['url'], 'productos/');
-            $arreglo = $cImagen->cargarImagen('producto', $param['files']['imagen'], 'productos/');
-            if ($arreglo['respuesta']) {
-                $objProducto->setImagen($arreglo['nombre']);
+            // Primero eliminamos la imagen antigua
+            $this->eliminarImagen($param['url'], 'productos/');
+            // Cargamos la nueva imagen
+            $imagenNombre = $this->cargarImagen('producto', $param['files']['imagen'], 'productos/');
+            if ($imagenNombre) {
+                $objProducto->setImagen($imagenNombre);
                 if ($objProducto != null and $objProducto->modificar()) {
                     $resp = true;
                 }
@@ -221,7 +222,7 @@ class abmProducto
         if (count($list) > 0) {
             foreach ($list as $elem) {
                 $nuevoElem = [
-                    "idproducto" => $elem->getID(),
+                    "idproducto" => $elem->getIdProducto(),
                     "pronombre" => $elem->getProNombre(),
                     "prodetalle" => $elem->getProDetalle(),
                     "procantstock" => $elem->getProCantStock(),
@@ -242,11 +243,11 @@ class abmProducto
         $arreglo_salida = [];
         $abmSession = new Session();
         $listaProductos = $this->buscarConStock();
-        $rolActivo = $abmSession->getRolActivo();
+        $rolActivo = $abmSession->getRol();
 
         if (count($listaProductos) > 0) {
             foreach ($listaProductos as $producto) {
-                //Para cada producto me fijo que no este deshabilitado
+                // Para cada producto, me fijo que no esté deshabilitado
                 if ($producto->getProDeshabilitado() == null || $producto->getProDeshabilitado() == '0000-00-00 00:00:00') {
                     $nuevoElem = [
                         "idproducto" => $producto->getID(),
@@ -261,6 +262,26 @@ class abmProducto
             }
         }
         return $arreglo_salida;
+    }
+
+    // Función para cargar la imagen
+    private function cargarImagen($tipo, $imagen, $ruta)
+    {
+        $nombreArchivo = uniqid() . '_' . $imagen['name'];
+        $rutaDestino = $ruta . $nombreArchivo;
+        if (move_uploaded_file($imagen['tmp_name'], $rutaDestino)) {
+            return $nombreArchivo;
+        }
+        return false;
+    }
+
+    // Función para eliminar una imagen
+    private function eliminarImagen($nombreImagen, $ruta)
+    {
+        $rutaArchivo = $ruta . $nombreImagen;
+        if (file_exists($rutaArchivo)) {
+            unlink($rutaArchivo);
+        }
     }
 }
 ?>

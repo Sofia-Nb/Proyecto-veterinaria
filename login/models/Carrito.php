@@ -1,157 +1,193 @@
 <?php
 
-class Carrito extends BaseDatos
-{
+class Carrito extends BaseDatos {
     private $idCarrito;
-    private $idusuario;
+    private $idUsuario;
     private $fechaCreacion;
-    private $idproducto;
-    private $cantproductos;
-    
+    private $idProducto;
+    private $cantProductos;
+    private $mensajeOperacion;
+
     // Constructor
-    public function __construct()
-    {
-        parent::__construct();
-        $this->idCarrito = null;
-        $this->idusuario = null;
-        $this->fechaCreacion = null;
-        $this->idproducto = null;
-        $this->cantproductos = null;
+    public function __construct($idCarrito = null, $idUsuario = null, $fechaCreacion = null, $idProducto = null, $cantProductos = null) {
+        parent::__construct(); // Inicializa la conexión a la base de datos
+        $this->idCarrito = $idCarrito;
+        $this->idUsuario = $idUsuario;
+        $this->fechaCreacion = $fechaCreacion;
+        $this->idProducto = $idProducto;
+        $this->cantProductos = $cantProductos;
     }
 
-    // Setear valores (para inserciones y actualizaciones)
-    public function setear($idusuario, $idproducto, $cantproductos, $fechaCreacion = null)
-    {
-        $this->idusuario = $idusuario;
-        $this->idproducto = $idproducto;
-        $this->cantproductos = $cantproductos;
-        $this->fechaCreacion = $fechaCreacion ?: date('Y-m-d H:i:s');  // Fecha por defecto actual
-    }
-
-    // Getters y Setters
-    public function getIdCarrito()
-    {
+    // Métodos Get
+    public function getIdCarrito() {
         return $this->idCarrito;
     }
 
-    public function setIdCarrito($valor)
-    {
-        $this->idCarrito = $valor;
+    public function getIdUsuario() {
+        return $this->idUsuario;
     }
 
-    public function getIdUsuario()
-    {
-        return $this->idusuario;
-    }
-
-    public function setIdUsuario($valor)
-    {
-        $this->idusuario = $valor;
-    }
-
-    public function getFechaCreacion()
-    {
+    public function getFechaCreacion() {
         return $this->fechaCreacion;
     }
 
-    public function setFechaCreacion($valor)
-    {
-        $this->fechaCreacion = $valor;
+    public function getIdProducto() {
+        return $this->idProducto;
     }
 
-    public function getIdProducto()
-    {
-        return $this->idproducto;
+    public function getCantProductos() {
+        return $this->cantProductos;
     }
 
-    public function setIdProducto($valor)
-    {
-        $this->idproducto = $valor;
+    public function setIdCarrito($idCart) {
+        $this->idCarrito = $idCart;
+    }
+    public function setMensajeOperacion($mensajeOperacion) {
+        $this->mensajeOperacion = $mensajeOperacion;
     }
 
-    public function getCantProductos()
-    {
-        return $this->cantproductos;
+    // Inserta un producto en el carrito
+    public function insertar() {
+        $sql = "INSERT INTO carrito (idCarrito, idusuario, fechaCreacion, idproducto, cantproductos) 
+                VALUES ('{$this->idCarrito}', '{$this->idUsuario}', NOW(), '{$this->idProducto}', '{$this->cantProductos}')";
+        $id = $this->Ejecutar($sql);
+        return $id > 0;
     }
 
-    public function setCantProductos($valor)
-    {
-        $this->cantproductos = $valor;
+    // Actualiza la cantidad de un producto en el carrito
+    public function actualizar() {
+        $sql = "UPDATE carrito 
+                SET cantproductos = '{$this->cantProductos}' 
+                WHERE idusuario = '{$this->idUsuario}' AND idproducto = '{$this->idProducto}'";
+        $filasAfectadas = $this->Ejecutar($sql);
+        return $filasAfectadas > 0;
     }
 
-    // Métodos de operaciones con la base de datos
+    // Elimina un producto del carrito
+    public function eliminarProducto($idUsuario, $idProducto) {
+        $sql = "DELETE FROM carrito 
+                WHERE idusuario = '{$idUsuario}' AND idproducto = '{$idProducto}'";
+        $filasAfectadas = $this->Ejecutar($sql);
+        return $filasAfectadas > 0;
+    }
 
-    // Insertar un producto en el carrito de compras
-    public function insertar()
-    {
-        $consulta = "INSERT INTO carrito (idusuario, idproducto, cantproductos, fechaCreacion) 
-                    VALUES (?, ?, ?, ?)";
-        $datos = array($this->idusuario, $this->idproducto, $this->cantproductos, $this->fechaCreacion);
-        $this->iniciarTransaccion();
-        if ($this->ejecutarConsulta($consulta, $datos)) {
-            $this->commit();
-            return true;
-        } else {
-            $this->rollBack();
-            return false;
+    // Vacía el carrito de un usuario
+    public function vaciarCarrito($idUsuario) {
+        $sql = "DELETE FROM carrito WHERE idusuario = '{$idUsuario}'";
+        $filasAfectadas = $this->Ejecutar($sql);
+        return $filasAfectadas > 0;
+    }
+
+    // Obtiene los productos del carrito por usuario
+    public function obtenerCarritoPorUsuario($idUsuario) {
+        $sql = "SELECT idproducto, cantproductos FROM carrito WHERE idusuario = '{$idUsuario}'";
+        $cantidad = $this->Ejecutar($sql);
+        $productos = [];
+        if ($cantidad > 0) {
+            while ($registro = $this->Registro()) {
+                $productos[] = $registro;
+            }
         }
+        return $productos;
     }
 
-    // Obtener los productos en el carrito de un usuario
-    public function obtenerCarritoPorUsuario($idusuario)
-    {
-        $consulta = "SELECT * FROM carrito WHERE idusuario = ?";
-        $datos = array($idusuario);
-        $resultado = $this->ejecutarConsulta($consulta, $datos);
-        return $resultado;
-    }
-
-    // Eliminar un producto del carrito
-    public function eliminarProducto($idusuario, $idproducto)
-    {
-        $consulta = "DELETE FROM carrito WHERE idusuario = ? AND idproducto = ?";
-        $datos = array($idusuario, $idproducto);
-        $this->iniciarTransaccion();
-        if ($this->ejecutarConsulta($consulta, $datos)) {
-            $this->commit();
-            return true;
-        } else {
-            $this->rollBack();
-            return false;
+    // Calcula el total de productos en el carrito de un usuario
+    public function obtenerTotalCarrito($idUsuario) {
+        $sql = "SELECT SUM(cantproductos) as total FROM carrito WHERE idusuario = '{$idUsuario}'";
+        $cantidad = $this->Ejecutar($sql);
+        $total = 0;
+        if ($cantidad > 0) {
+            $registro = $this->Registro();
+            $total = $registro['total'] ?? 0;
         }
+        return $total;
     }
 
-    // Vaciar el carrito de un usuario
-    public function vaciarCarrito($idusuario)
-    {
-        $consulta = "DELETE FROM carrito WHERE idusuario = ?";
-        $datos = array($idusuario);
-        $this->iniciarTransaccion();
-        if ($this->ejecutarConsulta($consulta, $datos)) {
-            $this->commit();
-            return true;
-        } else {
-            $this->rollBack();
-            return false;
+    // Configura las propiedades del carrito
+    public function setear($idCarrito, $idUsuario, $idProducto, $cantProductos) {
+        $this->idCarrito = $idCarrito;
+        $this->idUsuario = $idUsuario;
+        $this->idProducto = $idProducto;
+        $this->cantProductos = $cantProductos;
+    }
+
+// Listar todos los productos o los que coincidan con el parámetro
+public function listar($parametro = "") {
+    $arreglo = array();
+    $sql = "SELECT * FROM carrito";
+    if ($parametro != "") {
+        $sql .= " WHERE " . $parametro;
+    }
+    $res = $this->Ejecutar($sql);
+    if ($res > -1) {
+        if ($res > 0) {
+            while ($row = $this->Registro()) {
+                $obj = new Carrito();
+                $obj->setear(
+                    $row['idCarrito'],
+                    $row['idusuario'],
+                    $row['idproducto'],
+                    $row['cantproductos'],
+                );
+                array_push($arreglo, $obj);
+            }
         }
+    } else {
+        $this->setMensajeOperacion("carrito->listar: " . $this->getError());
     }
+    return $arreglo;
+}
 
-    // Obtener el total del carrito de un usuario (sumando los precios de los productos)
-    public function obtenerTotalCarrito($idusuario)
-    {
-        $consulta = "SELECT SUM(p.precio * c.cantproductos) AS total 
-                     FROM carrito c 
-                     INNER JOIN productos p ON c.idproducto = p.idproducto 
-                     WHERE c.idusuario = ?";
-        $datos = array($idusuario);
-        $resultado = $this->ejecutarConsulta($consulta, $datos);
-        return $resultado ? $resultado[0]['total'] : 0;
+public function obtenerCarritoId($idUsuario)
+{
+    if ($idUsuario) {
+        // Si el usuario está logueado, buscar su carrito
+        $sql = "SELECT idCarrito FROM carrito WHERE idusuario = '{$idUsuario}' LIMIT 1";
     }
-    
-    // Obtener el mensaje de error
-    public function getMensajeOperacion()
-    {
-        return $this->mensajeOperacion;
+    $res = $this->Ejecutar($sql);
+    if ($res > 0) {
+        $registro = $this->Registro();
+        return $registro['idCarrito'];
+    } else {
+        return null;
     }
 }
+
+public function nuevoCarrito($idUsuario){
+    $objCarrito = new Carrito();
+    $cantCarritos = $objCarrito->contarCarritos();
+    $nuevoIdCarrito = $cantCarritos + 1;
+    $sql = "UPDATE carrito 
+                SET idCarrito = '{$nuevoIdCarrito}' 
+                WHERE idusuario = '{$idUsuario}'";
+        $idAgregado = $this->Ejecutar($sql);
+        return $nuevoIdCarrito;
+}
+
+
+public function contarCarritos() {
+    // Consulta SQL para contar todos los carritos en la base de datos
+    $sql = "SELECT COUNT(idCarrito) AS totalCarritos FROM carrito";
+
+    // Ejecuta la consulta
+    $res = $this->Ejecutar($sql);
+
+    // Inicializa la variable para almacenar el total
+    $totalCarritos = 0;
+
+    // Si la consulta tuvo resultados, recupera el total
+    if ($res > 0) {
+        $registro = $this->Registro();
+        $totalCarritos = $registro['totalCarritos'] ?? 0; // Si no hay resultados, se retorna 0
+    }
+
+    // Retorna el total de carritos
+    return $totalCarritos;
+}
+
+
+}
+
+
+
 ?>

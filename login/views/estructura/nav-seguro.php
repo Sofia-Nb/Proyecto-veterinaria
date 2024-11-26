@@ -13,10 +13,11 @@ if (!$objSession->validar()) {
 
 // Obtener el rol del usuario desde la sesión
 $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
+$idUsuario = $objSession->getIdUsuario();
 
 ?>
 
-
+<script> var usuarioId = <?php echo json_encode($idUsuario); ?>;</script>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -46,8 +47,8 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
         <header>
             <!-- Logo y Nombre -->
             <div class="logo">
-                <a href="http://localhost:3000/login/views/home/index-seguro.php">
-                    <img src="../../assests/img/Logo.png" alt="Logo">
+                <a href="../home/index-seguro.php">
+                    <img src="../assests/img/Logo.png" alt="Logo">
                 </a>
             </div>
 
@@ -85,7 +86,7 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
 
                 <?php if ($rolUsuario == 3): ?>
                 <!-- Carrito -->
-                <a class="cart ms-3 text-decoration-none" href="http://localhost:3000/login/views/carritoMuestra.php">
+                <a class="cart ms-3 text-decoration-none" href="../Carrito/carritoMuestra.php">
                     <span class="cart-icon">🛒</span> Carrito (<span id="contadorCarrito">0</span>)
                 </a>
                 <?php endif; ?>
@@ -115,16 +116,8 @@ $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
                         <li><a href="gestion_productos.php" class="btn btn-primary">Gestionar Compras</a></li>
 
                         <?php elseif ($rolUsuario == 3): ?>
-                    <li><a href="../tienda/tienda.php">Tienda</a></li>
-
-                    <li class="dropdown">
-                        <a href="#">Categorías</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Perros</a></li>
-                            <li><a href="#">Gatos</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Contacto</a></li>
+                    <li><a href="../tienda/tienda.php">Productos</a></li>
+                    <li><a href="../Contacto/contacto.php">Contacto</a></li>
                     <?php endif; ?>
                 </ul>
             </div>

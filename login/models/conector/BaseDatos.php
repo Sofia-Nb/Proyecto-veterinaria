@@ -19,7 +19,7 @@
         public function __construct(){
             $this->engine = 'mysql';
             $this->host = 'localhost';
-            $this->database = 'veterinaria';
+            $this->database = 'bdveterinaria';
             $this->user = 'root';
             $this->pass = '';
             $this->debug = true;

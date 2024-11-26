@@ -1,32 +1,50 @@
 <?php
 include_once '../../controller/session.php';
 include_once '../utils/funciones.php';
-session_start();
+
+include_once '../../controller/session.php';
+include_once '../utils/funciones.php';
 
 $objSession = new Session();
-$datos = datasubmitted();
+$datos = dataSubmitted();
+$objProductos = new abmProducto();
 
-// Asegúrate de que el producto esté disponible en la solicitud
-if (isset($datos['producto'])) {
-    $producto = $datos['producto'];
 
-    // Agregar el producto al carrito (aquí se puede usar la sesión o una base de datos)
-    if (!isset($objSession['carrito'])) {
-        $objSession['carrito'] = array();  // Si no hay carrito, lo creamos
-    }
 
-    // Si el producto ya está en el carrito, incrementamos la cantidad
-    if (array_key_exists($producto, $objSession['carrito'])) {
-        $objSession['carrito'][$producto]++;
+if (!isset($datos['productoId'], $datos['cantidad'])) {
+    echo json_encode(['success' => false, 'mensaje' => 'Datos incompletos']);
+    exit;
+}
+
+$idUsuario = $objSession->getIdUsuario();
+$idProducto = intval($datos['productoId']);
+$cantidad = intval($datos['cantidad']);
+
+if ($idProducto <= 0 || $cantidad <= 0) {
+    echo json_encode(['success' => false, 'mensaje' => 'ID del producto o cantidad inválidos']);
+    exit;
+}
+
+$abmCarrito = new ABMCarrito();
+
+$idCarrito = $abmCarrito->idCarrito($idUsuario);
+
+// Verificar si el producto ya existe en el carrito
+$productoExistente = $abmCarrito->verificarProductoEnCarrito($idCarrito, $idUsuario, $idProducto);
+
+try {
+    if ($productoExistente) {
+        // Si el producto ya está en el carrito, actualizamos la cantidad
+
+        $cantPrincipal = $productoExistente->getCantProductos();
+        $nuevaCantidad= $cantPrincipal + $cantidad;
+
+        $abmCarrito->actualizarCantidad($idCarrito, $idUsuario, $idProducto, $nuevaCantidad);
     } else {
-        // Si el producto no está en el carrito, lo agregamos con cantidad 1
-        $objSession['carrito'][$producto] = 1;
+        // Si el producto no está en el carrito, lo agregamos
+        $abmCarrito->agregarAlCarrito($idCarrito, $idUsuario, $idProducto, $cantidad);
     }
-
-    // Puedes devolver una respuesta en formato JSON si lo prefieres
-    echo json_encode(['success' => true, 'producto' => $producto]);
-
-} else {
-    // Si no hay producto en la solicitud
-    echo json_encode(['success' => false, 'message' => 'No se especificó un producto']);
+    echo json_encode(['success' => true]);
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'mensaje' => 'Error: ' . $e->getMessage()]);
 }
