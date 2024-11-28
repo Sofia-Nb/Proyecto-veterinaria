@@ -45,10 +45,11 @@ class ABMCarrito
     // Vaciar el carrito
     public function vaciarCarrito($idusuario)
     {
-        if ($this->objCarrito->vaciarCarrito($idusuario)) {
-            echo "Carrito vacío.";
+        $objCarrito = new Carrito();
+        if ($objCarrito->vaciarCarrito($idusuario)) {
+            return true;
         } else {
-            echo "Error al vaciar el carrito.";
+            return false;
         }
     }
 

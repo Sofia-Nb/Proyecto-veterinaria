@@ -25,6 +25,7 @@ $(document).ready(function () {
                 if (response.success) {
                     alert('Producto agregado al carrito');
                     actualizarCarrito(); // Refresca la vista del carrito
+                    // Actualizar el contador del carrito
                 } else {
                     alert('Error: ' + response.mensaje);
                 }
@@ -35,3 +36,4 @@ $(document).ready(function () {
         });
     });
 });
+

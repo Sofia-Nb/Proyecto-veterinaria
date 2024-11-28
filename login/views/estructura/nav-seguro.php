@@ -1,6 +1,7 @@
 <!-- nav-seguro.php -->
 <?php 
     include_once '../../../configuracion.php'; // Configuración general
+    include_once '../utils/funciones.php';
     include_once '../../controller/session.php'; // Controlador de sesión
 
     $objSession = new Session(); // Instancia de la sesión
@@ -14,6 +15,8 @@ if (!$objSession->validar()) {
 // Obtener el rol del usuario desde la sesión
 $rolUsuario = $objSession->getRol(); // Esto te dará el rol del usuario
 $idUsuario = $objSession->getIdUsuario();
+$objAbmCarrito = new ABMCarrito();
+$total = $objAbmCarrito->verTotalCarrito($idUsuario);
 
 ?>
 
@@ -87,7 +90,7 @@ $idUsuario = $objSession->getIdUsuario();
                 <?php if ($rolUsuario == 3): ?>
                 <!-- Carrito -->
                 <a class="cart ms-3 text-decoration-none" href="../Carrito/carritoMuestra.php">
-                    <span class="cart-icon">🛒</span> Carrito (<span id="contadorCarrito">0</span>)
+                    <span class="cart-icon">🛒</span> Carrito (<span class="contadorCarrito">0</span>)
                 </a>
                 <?php endif; ?>
 

@@ -94,11 +94,11 @@ class Carrito extends BaseDatos {
     // Calcula el total de productos en el carrito de un usuario
     public function obtenerTotalCarrito($idUsuario) {
         $sql = "SELECT SUM(cantproductos) as total FROM carrito WHERE idusuario = '{$idUsuario}'";
-        $cantidad = $this->Ejecutar($sql);
+        $resultado = $this->Ejecutar($sql);
         $total = 0;
-        if ($cantidad > 0) {
-            $registro = $this->Registro();
-            $total = $registro['total'] ?? 0;
+        if ($resultado) {
+            $registro = $this->Registro(); // Asumiendo que Registro obtiene el resultado actual.
+            $total = $registro['total'] !== null ? (int)$registro['total'] : 0;
         }
         return $total;
     }

@@ -2,8 +2,6 @@
 include_once '../../controller/session.php';
 include_once '../utils/funciones.php';
 
-include_once '../../controller/session.php';
-include_once '../utils/funciones.php';
 
 $objSession = new Session();
 $datos = dataSubmitted();

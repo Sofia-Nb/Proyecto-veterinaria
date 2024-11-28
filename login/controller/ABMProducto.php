@@ -155,28 +155,10 @@ class abmProducto
 
     public function buscar($param)
     {
-        $where = " true ";
+        $where = "";
         if ($param <> null) {
             if (isset($param['idproducto'])) {
-                $where .= " and idproducto ='" . $param['idproducto'] . "'";
-            }
-            if (isset($param['pronombre'])) {
-                $where .= " and pronombre ='" . $param['pronombre'] . "'";
-            }
-            if (isset($param['prodetalle'])) {
-                $where .= " and prodetalle ='" . $param['prodetalle'] . "'";
-            }
-            if (isset($param['procantstock'])) {
-                $where .= " and procantstock ='" . $param['procantstock'] . "'";
-            }
-            if (isset($param['precio'])) {
-                $where .= " and precio ='" . $param['precio'] . "'";
-            }
-            if (isset($param['prodeshabilitado'])) {
-                $where .= " and prodeshabilitado ='" . $param['prodeshabilitado'] . "'";
-            }
-            if (isset($param['imagen'])) {
-                $where .= " and imagen ='" . $param['imagen'] . "'";
+                $where .= "idproducto ='" . $param['idproducto'] . "'";
             }
         }
 
@@ -283,5 +265,19 @@ class abmProducto
             unlink($rutaArchivo);
         }
     }
+
+    public function obtenerProducto($idProducto){
+        $objProducto = new Producto();
+        $arrayProducto = $objProducto->buscarPorID($idProducto);
+
+        // Si no se encuentra el producto, podrías retornar null o lanzar una excepción
+        if ($arrayProducto === null || empty($arrayProducto)) {
+            return null; // O podrías manejar el error de manera diferente, por ejemplo, lanzando una excepción.
+        }
+    
+        // Si buscas un solo producto, puedes retornar el primer elemento del arreglo
+        return $arrayProducto[0]; // Retorna el primer producto, ya que el ID es único.
+    }
+
 }
 ?>

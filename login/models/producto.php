@@ -153,9 +153,34 @@ class Producto extends BaseDatos {
     }
 
 
-    public function mostrarProductosCarrito($where){
-
+    public function buscarPorID($idProducto){
+        $arreglo = []; // Inicializar el arreglo para almacenar los productos.
+        
+        // Usar un prepared statement para evitar inyecciones SQL
+        $sql = "SELECT * FROM producto WHERE idproducto = $idProducto";
+        $res = $this->Ejecutar($sql, [$idProducto]); // Asumiendo que 'Ejecutar' maneja parámetros de manera segura.
+        
+        if ($res) { // Verificamos si hay resultados.
+            while ($row = $this->Registro()) { // Procesamos cada registro.
+                $obj = new Producto();
+                $obj->setear(
+                    $row['idproducto'],
+                    $row['pronombre'],
+                    $row['prodetalle'],
+                    $row['procantstock'],
+                    $row['precio'],
+                    $row['prodeshabilitado'],
+                    $row['imagen']
+                );
+                array_push($arreglo, $obj); // Agregamos el producto al arreglo.
+            }
+        } else {
+            return null; // Si no hay resultados, retornamos null.
+        }
+    
+        return $arreglo; // Devolvemos el arreglo con los productos encontrados.
     }
+    
 
     // Métodos getter y setter
     public function getIdProducto() {
